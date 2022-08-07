@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import UploadImage from "../services/UploadImage.js";
 var prisma = new PrismaClient()
 
 export default class UserRepository {
@@ -17,13 +18,16 @@ export default class UserRepository {
      */
     static async createUser(req) {
         const { name, email, password } = req.body
-        let user = await prisma.user.create({
-            data: {
-                name,
-                email,
-                password
-            }
+        UploadImage.upload(req).then(async image => {
+            let user = await prisma.user.create({
+                data: {
+                    name,
+                    email,
+                    password,
+                    image
+                }
+            })
+            return user;
         })
-        return user;
     }
 }

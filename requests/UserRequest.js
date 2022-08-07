@@ -39,6 +39,24 @@ export const userValidationRules = () => {
     body('password')
     .isLength({ min: 5 })
     .withMessage("at least 5 char"),
+
+    //image check
+    body("image")
+    .custom((value, {req}) => {
+      if(!req.file){
+          return Promise.reject("there is no file");
+      }
+      if(req.file){
+        let allowedExtension = ['image/jpeg', 'image/jpg', 'image/png','image/gif','image/bmp'];
+        if(!allowedExtension.includes(req.files.mimetype)){
+          return Promise.reject("file is not image");
+        }
+        if(req.files.size > 4 * 1024 * 1024){
+          return Promise.reject("file should less than 4 mb");
+        } 
+      }
+    })
+    .withMessage('error in your file.'),
   ]
 }
 

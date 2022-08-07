@@ -24,7 +24,7 @@ export default class UserController {
      * @param res - The response object.
      * @param next - The next middleware function in the stack.
      */
-    static async store(req, res, next) {
+    static store(req, res, next) {
         UserRepository.createUser(req)
         .then(user => {
             return res.json({user: user}); 
