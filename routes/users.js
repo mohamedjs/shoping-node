@@ -7,6 +7,6 @@ import { upload } from "../services/MulterService.js"
 
 /* GET users listing. */
 router.get('/', UserController.index);
-router.post('/', userValidationRules(), validateUser, upload.single('image'), UserController.store);
+router.post('/', upload.single('image'), userValidationRules(), validateUser, UserController.store);
 
 export default router;

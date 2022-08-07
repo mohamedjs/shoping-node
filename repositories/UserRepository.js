@@ -11,23 +11,23 @@ export default class UserRepository {
         let users = await prisma.user.findMany()
         return users;
     }
+  
     /**
-     * It creates a user in the database.
+     * It creates a user in the database
      * @param req - The request object
      * @returns The user object.
      */
     static async createUser(req) {
         const { name, email, password } = req.body
-        UploadImage.upload(req).then(async image => {
-            let user = await prisma.user.create({
-                data: {
-                    name,
-                    email,
-                    password,
-                    image
-                }
-            })
-            return user;
+        var image = await UploadImage.upload(req, "images")
+        let user = await prisma.user.create({
+            data: {
+                name,
+                email,
+                password,
+                image
+            }
         })
+        return user;
     }
 }
