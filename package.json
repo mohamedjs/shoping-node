@@ -1,0 +1,38 @@
+{
+  "name": "shopingapp",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf dist && babel src --out-dir dist  --copy-files",
+    "start": "node bin/www.js",
+    "start:dev": "nodemon --exec babel-node bin/www.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.1.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.1",
+    "express": "~4.16.1",
+    "express-validator": "^6.14.2",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.19",
+    "prisma": "^4.1.1",
+    "pug": "2.0.0-beta11",
+    "sequelize": "^6.21.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/node": "^7.18.10",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
+    "@babel/preset-env": "^7.18.10",
+    "rimraf": "^3.0.2"
+  }
+}
