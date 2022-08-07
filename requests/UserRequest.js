@@ -1,5 +1,13 @@
 import  { body, validationResult } from 'express-validator'
+import { PrismaClient } from "@prisma/client";
+var prisma = new PrismaClient()
 
+const checkUniqueEmail = async (value) => {
+    var user = await prisma.user.findFirst({
+        where: { email: value },
+    })
+    return user;
+}
 /**
  * It returns an array of validation rules that can be used to validate a user object.
  * @returns An array of functions.
@@ -7,11 +15,25 @@ import  { body, validationResult } from 'express-validator'
 export const userValidationRules = () => {
   return [
     // name must be not empty
-    body('name').notEmpty(),
+    body('name')
+    .notEmpty()
+    .withMessage('should not empty value'),
     // username must be an email
-    body('email').isEmail(),
+    body('email')
+    .isEmail()
+    .withMessage('should be valid email')
+    .custom(value => {
+        return checkUniqueEmail(value).then(user => {
+            if (user) {
+                return Promise.reject('email already in use');
+            }
+        })
+    })
+    .withMessage('should be unique email'),
     // password must be at least 5 chars long
-    body('password').isLength({ min: 5 }),
+    body('password')
+    .isLength({ min: 5 })
+    .withMessage("at least 5 char"),
   ]
 }
 
