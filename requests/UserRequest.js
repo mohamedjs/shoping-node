@@ -2,6 +2,11 @@ import  { body, validationResult } from 'express-validator'
 import { PrismaClient } from "@prisma/client";
 var prisma = new PrismaClient()
 
+/**
+ * Check if the email is already in use, if it is, return the user, if not, return null
+ * @param value - The value of the field being validated.
+ * @returns The user object.
+ */
 const checkUniqueEmail = async (value) => {
     var user = await prisma.user.findFirst({
         where: { email: value },
