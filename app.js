@@ -7,8 +7,8 @@ import bodyParser from 'body-parser';
 
 const __dirname = path.resolve();
 
-import indexRouter from './routes/index.js';
-import usersRouter from './routes/users.js';
+import usersRouter from './modules/users/routes.js';
+import postsRouter from './modules/posts/routes.js';
 
 var app = express();
 
@@ -24,8 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/posts', postsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
