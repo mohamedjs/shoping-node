@@ -7,7 +7,6 @@ export const getAllProducts = createAsyncThunk(
     async (search, thunkApi) => {
         try {
             const response = await (search ? axios.get(`/products/search?q=${search}`) : axios.get(`/products`));
-            console.log(response);
             return response.data
         } catch (err) {
             if (!err.response) {
