@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import SearchInput from './SearchInput'
-
 export const Layout = ({ title, children }) => {
   return (
     <>

@@ -72,3 +72,5 @@ export default  function ProductScreen() {
         </Layout>
     )
 }
+
+ProductScreen.auth = true
