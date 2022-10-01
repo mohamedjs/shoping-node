@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import React, { useState, useEffect} from 'react'
 import { useRouter } from 'next/router'
-import { Layout } from '../../components/layout'
+import { Layout } from '../../components/Layout'
 import { getAllProducts } from '../../store/products/product.slice'
 import { ProductItem } from '../../components/home/ProductItem'
 
