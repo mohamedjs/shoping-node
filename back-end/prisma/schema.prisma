@@ -3,26 +3,33 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
-}
-
-model User {
-  id    Int     @id @default(autoincrement())
-  name  String
-  email String  @unique
-  password String
-  image String?
-  posts Post[]
+  provider = "mongodb"
+  url      = "mongodb://mongo:27017/shop?directConnection=true"
 }
 
 model Post {
-  id         Int        @id   @default(autoincrement())
-  author     User       @relation(fields: [authorId], references: [id])
-  authorId   Int
-  title      String
-  body       String
-  images     String?
-  published  Boolean     @default(false)
-  created_at  DateTime   @default(now())
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  slug     String    @unique
+  title    String
+  body     String
+  author   User      @relation(fields: [authorId], references: [id])
+  authorId String    @db.ObjectId
+}
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  email    String   @unique
+  name     String?
+  password String?
+  image    String?
+  address  Address?
+  posts    Post[]
+}
+
+// Address is an embedded document
+type Address {
+  street String
+  city   String
+  state  String
+  zip    String
 }

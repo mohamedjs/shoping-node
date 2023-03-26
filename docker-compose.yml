@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  nginx:
+    depends_on:
+      - api
+      - client
+      - mongo
+    restart: always
+    build:
+      dockerfile: Dockerfile-nginx
+      context: ./devops
+    ports:
+      - "3050:80"
+    networks:
+      - shop-network
+
+  api:
+    build:
+      dockerfile: Dockerfile-express
+      context: "./back-end"
+    depends_on:
+      - mongo
+    volumes:
+      - /app/node_modules
+      - ./back-end:/app
+    networks:
+      - shop-network
+
+  client:
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      dockerfile: Dockerfile-react
+      context: ./front-end
+    volumes:
+      - /app/node_modules
+      - ./front-end:/app
+    networks:
+      - shop-network
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: shop
+    volumes:
+      - mongo-data:/data/db
+    command: --replSet rs0
+    ports:
+      - "27017:27017"
+    networks:
+      - shop-network
+
+volumes:
+  mongo-data:
+
+networks:
+  shop-network:
+    driver: bridge
+    

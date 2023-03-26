@@ -1,15 +1,11 @@
 import { ProductItem } from './ProductItem'
 import Link from 'next/link';
-import { useSelector, useDispatch } from 'react-redux'
-import React, { useState, useEffect} from 'react'
-import { getAllProducts } from '../../store/products/product.slice'
-import { getAllCategories } from '../../store/categories/category.slice'
-import { categoryImage } from "../../public/images/tshirt1.png";
+import { useSelector } from 'react-redux'
+import React from 'react'
 import Slider from "react-slick";
 
 const ProductSection = ({categoryName}) => {
-    let {loading , products} = useSelector(state => state.products)
-    let dispatch = useDispatch()
+    let {products} = useSelector(state => state.products)
     var product_settings = {
         dots: false,
         infinite: false,

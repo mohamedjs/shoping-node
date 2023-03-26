@@ -1,0 +1,22 @@
+# Use an official Node runtime as a parent image
+FROM node:16-alpine
+
+WORKDIR /app
+
+COPY package.json ./
+COPY package-lock.json ./
+COPY ./prisma prisma
+COPY ./ ./
+COPY mongo.conf /etc/mongod.conf.orig
+
+RUN npm i
+
+RUN npm install --arch=arm64 --platform=linuxmusl sharp
+RUN npm i -g prisma
+RUN prisma generate
+RUN npm uninstall sharp
+RUN npm install sharp
+
+# docker-compose exec mongo mongosh --eval "rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'localhost:27017'}]});"
+
+CMD ["npm", "run", "start:dev"]

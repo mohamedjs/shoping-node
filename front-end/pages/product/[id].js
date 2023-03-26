@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
 import React, { useState, useEffect} from 'react'
 import { useRouter } from 'next/router'
@@ -12,7 +11,7 @@ export default  function ProductScreen() {
     const { query } = useRouter()
     const { id }  = query
     let dispatch = useDispatch()
-    let {loading , product} = useSelector(state => state.products)
+    let {product} = useSelector(state => state.products)
     let [images, setImages] = useState([])
     const settings = {
         dots: false,

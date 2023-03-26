@@ -9,7 +9,7 @@ const Login = () => {
     const { redirectTo } = router.query
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    let {load, user} = useSelector(state => state.auth)
+    let {user} = useSelector(state => state.auth)
     let dispatch = useDispatch()
     const handleSingIn = () => {
         let credential = {username: email, password: password}

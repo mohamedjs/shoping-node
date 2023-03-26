@@ -1,12 +1,11 @@
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux'
-import React, { useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import { getAllCategories } from '../../store/categories/category.slice'
-import { categoryImage } from "../../public/images/tshirt1.png";
 import Slider from "react-slick";
 
 const CategorySection = () => {
-    let {load , categories} = useSelector(state => state.categories)
+    let {categories} = useSelector(state => state.categories)
     let dispatch = useDispatch()
     var settings = {
       dots: false,

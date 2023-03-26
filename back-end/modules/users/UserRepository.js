@@ -20,14 +20,19 @@ export default class UserRepository {
     static async createUser(req) {
         const { name, email, password } = req.body
         var image = await UploadImage.upload(req, "images")
-        let user = await prisma.user.create({
-            data: {
-                name,
-                email,
-                password,
-                image
-            }
-        })
-        return user;
+        try {
+            let user = await prisma.user.create({
+                data: {
+                    name,
+                    email,
+                    password,
+                    image
+                }
+            })
+            return user;
+        } catch (error) {
+            console.error('An error occurred:', error);
+            return {};
+        }
     }
 }
