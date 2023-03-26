@@ -1,4 +1,4 @@
-# Shop App Docker Compose Config
+# Shop App 
 
 This is the Docker Compose configuration file for the Shop application. It includes definitions for four services: `nginx`, `api`, `client`, and `mongo`.
 
