@@ -7,8 +7,10 @@ import bodyParser from 'body-parser';
 
 const __dirname = path.resolve();
 
-import usersRouter from './modules/users/routes.js';
-import postsRouter from './modules/posts/routes.js';
+import usersRouter      from './modules/users/routes.js';
+import postsRouter      from './modules/posts/routes.js';
+import categoriesRouter from './modules/categories/routes.js';
+import productsRouter from './modules/products/routes.js';
 
 var app = express();
 
@@ -26,6 +28,8 @@ app.use(bodyParser.json());
 
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
+app.use('/categories', categoriesRouter);
+app.use('/products', productsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

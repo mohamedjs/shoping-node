@@ -2,7 +2,7 @@
 import axios from 'axios'
 // require('dotenv').config();
 
-const domain = "https://dummyjson.com/"
+const domain = "http://localhost:5000/api/"
 
 const axiosInstance =  axios.create({
   baseURL: domain,

@@ -48,17 +48,17 @@ const CategorySection = () => {
     <Slider {...settings}>
         { categories.map((category, index) => (
         <div className="transition duration-300 hover:scale-[1.1] p-4 mt-3 cursor-pointer" key={index}>
-            <Link href={`/category/${category}`}>
+            <Link href={`/category/${category.name}`}>
             <a className="relative w-full h-[200px] rounded inline-block">
-            <div className="absolute left-0 bottom-0 w-full h-full z-10">
+              <div className="absolute left-0 bottom-0 w-full h-full z-10">
                 <img
-                src={`https://picsum.photos/id/${index}/200/300`}
-                className="absolute left-0 top-0 w-full h-full rounded z-10 object-cover"
-                />
-            </div>
-            <div className="p-4 absolute bg-cyan-500 shadow-lg shadow-cyan-500/50 bottom-0 inset-x-0 z-20">
-                <h3 className="bottom-px text-center text-white">{category}</h3>
-            </div>
+                  src={category.image}
+                  className="absolute left-0 top-0 w-full h-full rounded z-10 object-cover"
+                  />
+              </div>
+              <div className="p-4 absolute bg-cyan-500 shadow-lg shadow-cyan-500/50 bottom-0 inset-x-0 z-20">
+                  <h3 className="bottom-px text-center text-white">{category.name}</h3>
+              </div>
             </a>
             </Link>
         </div> 
