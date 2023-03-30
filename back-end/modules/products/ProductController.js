@@ -8,11 +8,11 @@ export default class ProductController {
      * @param next - The next middleware function in the stack.
      */
     static index(req, res, next) {
-        ProductRepository.getAllProducts()
+        ProductRepository.getAllProducts(req)
         .then((products) => {
             return res.json({products: products})
         }).catch((err) => {
-            return res.json({error: "there are no data"})
+            return err
         })
     }
 }

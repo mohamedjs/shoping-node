@@ -56,6 +56,9 @@ const categoryData = [
 
 const products = [...Array(100)].map(() => ({
   name: faker.commerce.productName(),
+  brand: faker.commerce.department(),
+  stock: faker.datatype.number({ max: 100 }) ,
+  rate: faker.datatype.number({ max: 5 }) ,
   icon: 'laptop',
   image: faker.image.food(1024, 724, true),
   description: faker.commerce.productDescription(),
@@ -64,9 +67,9 @@ const products = [...Array(100)].map(() => ({
 
 async function main() {
   console.log(`Start seeding ...`)
-  await prisma.user.deleteMany()
-  await prisma.category.deleteMany()
-  await prisma.product.deleteMany()
+  // await prisma.user.deleteMany()
+  // await prisma.category.deleteMany()
+  // await prisma.product.deleteMany()
   for (const u of userData) {
     const user = await prisma.user.create({
       data: u,
