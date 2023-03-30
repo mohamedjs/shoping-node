@@ -44,13 +44,11 @@ export const userValidationRules = () => {
     body("image")
     .custom((value, {req}) => {
       if(!req.file){
-        console.log("okno");
           return Promise.reject("there is no file");
       }
       if(req.file){
         let allowedExtension = ['image/jpeg', 'image/jpg', 'image/png','image/gif','image/bmp'];
         if(!allowedExtension.includes(req.file.mimetype)){
-          console.log("check");
           return Promise.reject("file is not image");
         }
         if(req.file.size > 4 * 1024 * 1024){

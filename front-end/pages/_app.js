@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import Cookie from "js-cookie";   
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 let store = createStore(reducer, applyMiddleware(thunk));
 

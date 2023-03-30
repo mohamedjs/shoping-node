@@ -1,11 +1,12 @@
-import { ProductItem } from './ProductItem'
 import Link from 'next/link';
 import { useSelector } from 'react-redux'
 import React from 'react'
 import Slider from "react-slick";
+import Loading from '../loading/index';
+import { ProductItem } from '../product/ProductItem';
 
 const ProductSection = ({categoryName}) => {
-    let {products} = useSelector(state => state.products)
+    let {loading, products} = useSelector(state => state.products)
     var product_settings = {
         dots: false,
         infinite: false,
@@ -41,9 +42,12 @@ const ProductSection = ({categoryName}) => {
         }
         ]
     };
- 
+
   return (
-    <div className="flex flex-col justify-between">
+    <>
+    {loading 
+        ? <Loading />
+        :<div className="flex flex-col justify-between">
             <Link href={`/category/${categoryName}`}>
                 <div className='flex h-12 items-center px-3 mb-3 bg-cyan-300 justify-between shadow-md'>
                     <div className="cursor-pointer text-black text-base font-bold">{categoryName}</div>
@@ -53,13 +57,15 @@ const ProductSection = ({categoryName}) => {
                 </div>
             </Link>
             <Slider {...product_settings}>
-                { 
-                    products.map((product) => (
-                    product.category === categoryName ? <div key={product.id} className="p-2"><ProductItem product={product} key={product.id} /> </div>: ''
-                    )) 
-                } 
+            { products.filter(product => product.category.name === categoryName).map(product => (
+                <div key={product.id} className="p-2">
+                    <ProductItem product={product} key={product.id} /> 
+                </div>
+            ))}
             </Slider>
-    </div>
+        </div>
+    }
+    </>
   )
 }
 
