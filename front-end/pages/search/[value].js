@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { Layout } from '../../components/Layout'
 import { getAllProducts } from '../../store/products/product.slice'
 import Loading from '../../components/loading/index'
+import ProductGrid from '../../components/product/ProductGrid'
 
 const SearchScreen = () => {
   let {loading , products} = useSelector(state => state.products)
