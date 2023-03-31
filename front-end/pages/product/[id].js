@@ -8,11 +8,11 @@ import  Slider from "react-slick";
 import ImageItem from './ImageItem'
 
 export default  function ProductScreen() {
-    const { query } = useRouter()
-    const { id }  = query
-    let dispatch = useDispatch()
     let {product} = useSelector(state => state.products)
     let [images, setImages] = useState([])
+    let dispatch = useDispatch()
+    const { query } = useRouter()
+    const { id }  = query
     const settings = {
         dots: false,
         arrows: true,
@@ -41,7 +41,7 @@ export default  function ProductScreen() {
                     {images.length && 
                     <Slider {...settings}>
                         { images.map((image, index) => (
-                            <ImageItem key={index+1} image={image}></ImageItem>
+                            <ImageItem key={index+1} image={image.image}></ImageItem>
                         ))}
                     </Slider>}
                 </div>
@@ -50,7 +50,7 @@ export default  function ProductScreen() {
                         <li>
                             <h1 className='text-lg'>{product.title}</h1>
                         </li>
-                        <li>Category: {product.category}</li>
+                        <li>Category: {product.category?.name}</li>
                         <li>Brand: {product.brand}</li>
                         <li>{product.rating}</li>
                         <li>Description: {product.description} </li>
@@ -72,4 +72,4 @@ export default  function ProductScreen() {
     )
 }
 
-ProductScreen.auth = true
+ProductScreen.auth = false

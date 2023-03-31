@@ -81,7 +81,6 @@ export const productSlice = createSlice({
         },
         [getProductById.rejected]: (state, action) => {
             console.log(action.payload);
-
         },
         [getProductByCategoryName.pending]: (state, action) => {
             state.loading = true

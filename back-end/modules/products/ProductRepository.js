@@ -55,4 +55,16 @@ export default class ProductRepository {
     
         return products
     }
+
+    static async findProduct(req) {
+        const { id } = req.params
+        const product = await prisma.product.findUnique({
+            where: { id },
+            include: {
+                category:true,
+                images: true
+            }
+        })
+        return product
+    }
 }

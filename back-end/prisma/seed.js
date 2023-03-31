@@ -54,7 +54,7 @@ const categoryData = [
   }
 ]
 
-const products = [...Array(100)].map(() => ({
+const products = [...Array(10)].map(() => ({
   name: faker.commerce.productName(),
   brand: faker.commerce.department(),
   stock: faker.datatype.number({ max: 100 }) ,
@@ -63,6 +63,10 @@ const products = [...Array(100)].map(() => ({
   image: faker.image.food(1024, 724, true),
   description: faker.commerce.productDescription(),
   price: Number(faker.commerce.price()),
+}));
+
+const images = [...Array(5)].map(() => ({
+  image: faker.image.food(1024, 724, true),
 }));
 
 async function main() {
@@ -81,9 +85,14 @@ async function main() {
       data: categoryData[i],
     })
     products[i].categoryId = category.id
-    const product = await prisma.product.create({
-      data: products[i],
-    })
+    products[i].images = {
+      create: images
+    }
+    for (let index = 0; index < 5; index++) {
+      await prisma.product.create({
+        data: products[i],
+      })
+    }
     console.log(`Created category with id: ${category.id}`)
   }
   console.log(`Seeding finished.`)

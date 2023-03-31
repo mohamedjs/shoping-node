@@ -9,10 +9,19 @@ export default class ProductController {
      */
     static index(req, res, next) {
         ProductRepository.getAllProducts(req)
-        .then((products) => {
-            return res.json({products: products})
-        }).catch((err) => {
-            return err
-        })
+            .then((products) => {
+                return res.json({products: products})
+            }).catch((err) => {
+                return err
+            })
+    }
+
+    static show(req, res, next) {
+        ProductRepository.findProduct(req)
+            .then(function(product) {
+                return res.json(product)
+            }).catch((err) => {
+                return err
+            })
     }
 }
