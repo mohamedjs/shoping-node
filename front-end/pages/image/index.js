@@ -7,7 +7,7 @@ export default function index() {
     const [imageUrl, setImageUrl] = useState('')
     const [loading, setLoading] = useState(false)
     const configuration = new Configuration({
-        apiKey: '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',
+        apiKey: process.env.OPENAI_API_KEY,
     });
     const openai = new OpenAIApi(configuration);
 
@@ -23,14 +23,32 @@ export default function index() {
     }
 
     return (
-        <form className="flex flex-col items-center justify-center">
-            {
-                loading 
-                ? <Loading />
-                : <img src={imageUrl} width='50%' height='200px' alt="placeholder" className="mb-4" />   
-            }
-            <input type="text" onChange={(e) => setImageDescription(e.target.value)} placeholder="Enter text" className="py-2 px-4 border border-gray-500 rounded-lg mb-4" />
-            <button type="button" onClick={() => showImage() }  className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Submit</button>
+        <form className="flex flex-col  justify-center">
+            {loading ? (
+                <Loading />
+            ) : (
+                <picture>
+                    <source srcSet={`${imageUrl} 2x`} media="(min-width: 768px)" />
+                    <img
+                        src={imageUrl}
+                        alt="placeholder"
+                        className="mb-4"
+                        style={{ maxWidth: '100%', height: '200px' }}
+                    />
+                </picture>
+            )}
+            <textarea
+                onChange={(e) => setImageDescription(e.target.value)}
+                placeholder="Enter text"
+                className="py-2 px-4 border border-gray-500 rounded-lg mb-4"
+            ></textarea>
+            <button
+                type="button"
+                onClick={() => showImage()}
+                className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+            >
+                Submit
+            </button>
         </form>
     )
 }
