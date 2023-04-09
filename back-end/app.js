@@ -4,6 +4,7 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import passport from './config/passport';
 
 const __dirname = path.resolve();
 
@@ -11,6 +12,7 @@ import usersRouter      from './modules/users/routes.js';
 import postsRouter      from './modules/posts/routes.js';
 import categoriesRouter from './modules/categories/routes.js';
 import productsRouter from './modules/products/routes.js';
+import authRouter from './modules/auth/routes.js';
 
 var app = express();
 
@@ -25,11 +27,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(passport.initialize());
 
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
-app.use('/categories', categoriesRouter);
+app.use('/categories', passport.authenticate('jwt', { session: false }, categoriesRouter);
 app.use('/products', productsRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
