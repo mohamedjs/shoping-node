@@ -2,27 +2,33 @@ import Link from 'next/link';
 
 export const ProductItem = ({ product }) => {
   return (
-    <div className='card'>
+    <div className='card group'>
         <Link href={`/product/${product.id}`}>
-            <a>
+            <a className="block relative overflow-hidden rounded-t-xl">
                 <img
                     src={product.image}
                     alt={product.name}
-                    className='rounded shadow-md hover:blur-none w-[100%] h-[300px]'
+                    className='w-full h-[300px] object-cover transition-transform duration-500 group-hover:scale-110'
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </a>
         </Link>
-        <div className='flex flex-col justify-center items-center p-5'>
+        <div className='p-6 space-y-3'>
             <Link href={`/product/${product.id}`}>
                 <a>
-                    <h2 className='text-lg'>{product.brand}</h2>
+                    <h2 className='text-lg font-semibold text-[var(--text)] hover:text-[var(--primary)] transition-colors duration-300'>{product.brand}</h2>
                 </a>
             </Link>
-            <p className='mb-2'>{product.stock}</p>
-            <p>${product.price}</p>
-            <button className='button-primary bg-gradient-to-r from-violet-500 to-fuchsia-500' type='button'>
-                Add to Cart
-            </button>
+            <p className='text-sm text-gray-600'>{product.stock}</p>
+            <div className="flex items-center justify-between">
+                <p className='text-xl font-bold text-[var(--primary)]'>${product.price}</p>
+                <button 
+                    className='button-primary bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] hover:from-[var(--secondary)] hover:to-[var(--primary)]' 
+                    type='button'
+                >
+                    Add to Cart
+                </button>
+            </div>
         </div>
     </div>
   )
