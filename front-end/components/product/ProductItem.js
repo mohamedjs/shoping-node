@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import { memo } from 'react';
 
-export const ProductItem = ({ product }) => {
+export const ProductItem =memo(({ product }) => {
+    // console.log(`render this product ${product.name}-${product.id}`)
   return (
     <div className='card group'>
         <Link href={`/product/${product.id}`}>
@@ -16,10 +18,10 @@ export const ProductItem = ({ product }) => {
         <div className='p-6 space-y-3'>
             <Link href={`/product/${product.id}`}>
                 <a>
-                    <h2 className='text-lg font-semibold text-[var(--text)] hover:text-[var(--primary)] transition-colors duration-300'>{product.brand}</h2>
+                    <h2 className='text-lg font-semibold text-[var(--text)] hover:text-[var(--primary)] transition-colors duration-300'>{product.name}</h2>
                 </a>
             </Link>
-            <p className='text-sm text-gray-600'>{product.stock}</p>
+            <p className='text-sm text-gray-600'>{product.stock} - {product.rate}</p>
             <div className="flex items-center justify-between">
                 <p className='text-xl font-bold text-[var(--primary)]'>${product.price}</p>
                 <button 
@@ -32,4 +34,4 @@ export const ProductItem = ({ product }) => {
         </div>
     </div>
   )
-}
+})

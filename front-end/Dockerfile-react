@@ -5,8 +5,10 @@ WORKDIR /app
 
 COPY package.json ./
 COPY package-lock.json ./
-COPY ./ ./
+COPY . .
 
 RUN npm i
 
-CMD ["npm", "run", "dev"]
+EXPOSE 5000
+
+CMD ["npm", "run", "dev", "--" ,"-p", "5000"]

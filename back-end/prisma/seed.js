@@ -80,7 +80,7 @@ async function main() {
     console.log(`📁 Created category: ${category.name}`);
 
     // Create 5 products per category
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 1000; i++) {
       const product = await prisma.product.create({
         data: {
           name: faker.commerce.productName(),

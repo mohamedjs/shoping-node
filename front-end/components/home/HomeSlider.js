@@ -58,8 +58,8 @@ const HomeSlider = () => {
                         </div>
                         <img src={heroIllustration} alt="Hero Illustration" className="absolute bottom-0 right-0 w-40 h-40 object-contain pointer-events-none select-none" style={{zIndex:0, opacity:0.9}} />
                         <div className="mt-8 flex flex-wrap gap-2 z-10 relative">
-                            {trendingSearches.map((search, idx) => (
-                                <span key={idx} className="bg-[var(--primary)]/10 text-[var(--primary)] px-3 py-1 rounded-full text-xs font-semibold cursor-pointer hover:bg-[var(--primary)]/20 transition">{search}</span>
+                            {categories.map((category, idx) => (
+                                <span key={category.id} className="bg-[var(--primary)]/10 text-[var(--primary)] px-3 py-1 rounded-full text-xs font-semibold cursor-pointer hover:bg-[var(--primary)]/20 transition">{category.name}</span>
                             ))}
                         </div>
                     </div>

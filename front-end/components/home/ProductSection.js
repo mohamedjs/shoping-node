@@ -61,7 +61,7 @@ const ProductSection = ({categoryName}) => {
                 </div>
             </Link>
             <Slider {...product_settings} className="product-slider">
-                { products.filter(product => product.category.name === categoryName).map(product => (
+                { products.filter(product => product.category.name === categoryName).slice(0, 10).map(product => (
                     <div key={product.id} className="px-2">
                         <ProductItem product={product} key={product.id} /> 
                     </div>

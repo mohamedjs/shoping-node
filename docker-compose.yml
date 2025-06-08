@@ -31,14 +31,17 @@ services:
 
   client:
     stdin_open: true
+    restart: always
+    ports:
+      - '${FRONT_END_PORT:-5000}:5000'
     environment:
       - CHOKIDAR_USEPOLLING=true
     build:
       dockerfile: Dockerfile-react
       context: ${FRONT_END_PATH}
     volumes:
-      - /app/node_modules
       - ${FRONT_END_PATH}:${DOCUMENT_ROOT}
+    command: sh ./start.sh
     networks:
       - shop-network
 
@@ -76,4 +79,3 @@ volumes:
 networks:
   shop-network:
     driver: bridge
-    
