@@ -1,36 +1,17 @@
-feat: Implement PostgreSQL migration and comprehensive UI/UX redesign
+feat: Implement product creation with image upload and Redis caching
 
-This commit introduces a major architectural shift by migrating the backend
-database from MongoDB to PostgreSQL, coupled with a significant overhaul
-of the frontend user interface and experience.
+This commit introduces significant new functionality and performance improvements:
 
-Key changes include:
-
-Database Migration:
-- Switched Prisma datasource from MongoDB to PostgreSQL.
-- Updated Prisma schema to use integer IDs and relational models.
-- Refactored `seed.js` to generate a larger dataset (1000 products per category)
-  and use static image URLs for consistency.
-- Adjusted `ProductRepository` to parse product IDs as integers.
-
-Frontend Redesign & Features:
-- Introduced a new design system with custom CSS variables for consistent theming.
-- Completely redesigned core components: `Layout` (header, footer), `HomeSlider`
-  (hero section, product carousels, trending categories), `CategorySection`,
-  `ProductSection`, `ProductItem`, `SearchInput`, and `Loading` spinner.
-- Implemented advanced product listing features on the category page:
-    - Client-side filtering by price, category, brand, and rating.
-    - Dynamic sorting options (price, rate).
-    - Pagination for efficient browsing of large product sets.
-- Integrated Material-UI components for filtering and pagination.
-- Improved overall responsiveness and visual appeal.
-
-Infrastructure & Docker:
-- Updated `docker-compose.yml` to replace MongoDB with PostgreSQL service.
-- Adjusted Nginx configuration to support Next.js HMR and new frontend port.
-- Upgraded Node.js versions in both backend and frontend Dockerfiles (Node 16 -> 20).
-- Optimized Docker build processes for both services.
-- Added `FRONT_END_PORT` environment variable for frontend service.
-
-These changes significantly enhance the application's performance, scalability,
-and provide a modern, intuitive shopping experience.
+-   **Product Creation Endpoint**: Added a new `POST /products` endpoint to allow creation of new products.
+    -   Supports uploading multiple product images using Multer.
+    -   Includes robust server-side validation for product data.
+    -   Refactored product creation logic into `ProductRepository.createProduct`.
+    -   Emits a `product:created` event via `ProductEventService` upon successful creation.
+-   **Redis Caching for Products**: Implemented Redis caching for `findProduct` operations in `ProductRepository`.
+    -   Products are now retrieved from Redis cache if available, significantly reducing database load for frequently accessed items.
+    -   If not in cache, the product is fetched from the database and then stored in Redis for subsequent requests.
+-   **Infrastructure Setup**:
+    -   Integrated a Redis service into `docker-compose.yml` for local development and production environments.
+    -   Added `REDIS_PORT` to `.env` and `REDIS_HOST` environment variable for the backend service.
+-   **Event Listener Initialization**: Centralized event listener initialization in `app.js` to ensure services like `ProductEventService` are ready before routes are processed.
+-   **Dependencies**: Added `ioredis` to `package.json` for Redis client functionality.
