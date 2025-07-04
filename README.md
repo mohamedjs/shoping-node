@@ -1,60 +1,141 @@
-# Shop App 
+# Shoping Node – Modern E-commerce Platform
 
-This is the Docker Compose configuration file for the Shop application. It includes definitions for four services: `nginx`, `api`, `client`, and `postgres`.
+A full-stack, event-driven e-commerce application built with Node.js (Express), React (Next.js), PostgreSQL (via Prisma ORM), Redis, and Docker. The project features modular architecture, real-time event handling, robust API, and a modern, responsive UI.
 
-## Services
+---
 
-### nginx
+## 🏗️ Architecture Overview
 
-The `nginx` service is the web server that serves the Shop application. It depends on the `api`, `client`, and `postgres` services. It is built using the `Dockerfile-nginx` file in the `./devops` directory. It is exposed on port `3050`.
+- **Backend:** Node.js (Express), modular structure (`/modules`), Prisma ORM, Redis caching, event-driven services
+- **Frontend:** React (Next.js), Redux Toolkit, Material UI, responsive design, modular components
+- **Database:** PostgreSQL (via Prisma), with models for User, Product, Category, Post, Address, ProductImage
+- **DevOps:** Docker Compose, Nginx reverse proxy, multi-container setup (API, client, Postgres, Redis)
+- **Testing:** Jest for backend modules (unit/integration)
 
-### api
+---
 
-The `api` service is the back-end for the Shop application. It is built using the `Dockerfile-express` file in the `./back-end` directory. It depends on the `postgres` service. It is mounted on `/app` and uses a named volume for `node_modules`. The service uses Node.js 20 and includes Prisma for database management.
+## 🚀 Features
 
-### client
+- **User Management:** Registration (with image upload), authentication, unique email validation
+- **Product Catalog:**
+  - CRUD operations for products (with image upload, resizing, and multiple images)
+  - Category filtering, brand filtering, search, rating, and price range
+  - Redis caching for product details
+  - Event-driven logic for product creation (custom event emitter)
+- **Categories:** CRUD, filtering, and display
+- **Posts:** Blog-style posts with author relation
+- **Shopping Cart:** (Planned/extendable)
+- **Responsive UI:** Modern, mobile-friendly design with category/product sliders, search, and filtering
+- **API:** RESTful endpoints for users, products, categories, and posts
+- **Authentication:** JWT-based (planned/extendable), session via cookies
+- **Testing:** Jest tests for controllers and repositories
 
-The `client` service is the front-end for the Shop application. It is built using the `Dockerfile-react` file in the `./front-end` directory. It is mounted on `/app` and uses a named volume for `node_modules`. The service uses Node.js 20 and includes modern UI components with CSS variables for theming.
+---
 
-### postgres
+## 🗂️ Project Structure
 
-The `postgres` service is the database for the Shop application. It uses the official PostgreSQL 14 image from Docker Hub. It is mounted on a named volume for the data directory (`/var/lib/postgresql/data`) and is exposed on port `5432`. The service includes:
-- Database name: app
-- Username: postgres
-- Password: postgres
+### Backend (`/back-end`)
+- **app.js:** Main Express app, sets up middleware, routes, error handling, and event listeners
+- **/modules:**
+  - `users/` – User CRUD, validation, image upload
+  - `products/` – Product CRUD, image upload, event emission, Redis cache
+  - `categories/` – Category CRUD
+  - `posts/` – Post CRUD
+- **/events:** Event-driven services (e.g., ProductEventService)
+- **/services:**
+  - `MulterService.js` – File upload middleware
+  - `Resize.js` – Image resizing utility (Sharp)
+  - `UploadImage.js` – Image upload handler
+- **/prisma:**
+  - `schema.prisma` – Database schema (PostgreSQL)
+  - `migrations/` – DB migrations
+  - `seed.js` – Seed script (Faker)
+- **/utils:**
+  - `logger.js` – Logging utility
+  - `cache/redis.cache.js` – Redis cache wrapper
 
-## Volumes
+### Frontend (`/front-end`)
+- **Next.js app** with modular components:
+  - `/components/` – Layout, home, product, category, filters, loading, etc.
+  - `/pages/` – Home, product, category, search, user, auth (login)
+  - `/store/` – Redux Toolkit slices for products, categories, auth
+  - `/utils/` – Data utilities
+- **Styling:** Tailwind CSS, Material UI, custom CSS variables
+- **State Management:** Redux Toolkit, async thunks for API calls
+- **API Integration:** Axios instance with auth token support
 
-This Docker Compose configuration defines one named volume for the `postgres` service: `pgdata`.
+### DevOps
+- **docker-compose.yml:** Orchestrates API, client, Postgres, Redis, Nginx
+- **/devops:**
+  - `Dockerfile-nginx`, `nginx.conf` – Nginx reverse proxy for API/client
 
-## Networks
+---
 
-This Docker Compose configuration defines one bridge network for the services: `shop-network`.
+## 🛠️ Technologies Used
+- **Node.js 20** (Express)
+- **React 18** (Next.js)
+- **Redux Toolkit**
+- **Prisma ORM**
+- **PostgreSQL 14**
+- **Redis**
+- **Docker & Docker Compose**
+- **Nginx**
+- **Jest** (testing)
+- **Sharp** (image processing)
+- **Multer** (file uploads)
+- **Faker.js** (seeding)
 
-## Environment Variables
+---
 
-The application uses the following environment variables:
-- `DOCUMENT_ROOT`: Application root directory (default: /app)
-- `APP_PORT`: API service port (default: 5000)
-- `POSTGRES_DB_PORT`: PostgreSQL port (default: 5432)
-- `FRONT_END_PATH`: Frontend directory path (default: ./front-end)
-- `BACK_END_PATH`: Backend directory path (default: ./back-end)
+## 📦 How to Run
 
-## How to Run
+1. **Clone the repository:**
+   ```bash
+   git clone <repo-url>
+   cd shoping-node
+   ```
+2. **Configure environment variables:**
+   - Set `DOCUMENT_ROOT`, `APP_PORT`, `POSTGRES_DB_PORT`, `FRONT_END_PATH`, `BACK_END_PATH` as needed (see `docker-compose.yml`)
+3. **Start with Docker Compose:**
+   ```bash
+   docker-compose up
+   ```
+   - API: http://localhost:5000
+   - Client: http://localhost:3050
+   - Postgres: localhost:5432
+   - Redis: localhost:6379
 
-To run the Shop application using Docker Compose, simply navigate to the directory where this `docker-compose.yml` file is located and run the following command:
+---
 
-```bash
-docker-compose up
-```
+## 🧩 API Endpoints (Examples)
+- `GET /users` – List users
+- `POST /users` – Create user (with image upload)
+- `GET /products` – List products (with filters)
+- `GET /products/:id` – Get product (with Redis cache)
+- `POST /products` – Create product (with images, emits event)
+- `GET /categories` – List categories
+- `GET /posts` – List posts
 
-## Features
+---
 
-- Modern UI with responsive design
-- Product catalog with categories
-- Search functionality
-- Shopping cart
-- User authentication
-- PostgreSQL database with Prisma ORM
-- Docker containerization
-- Nginx reverse proxy
+## 🧪 Testing
+- Jest tests for product controller and repository (see `/modules/products/__tests__/`)
+- To run tests:
+  ```bash
+  cd back-end
+  npm test
+  ```
+
+---
+
+## 📝 Notes
+- **Event-driven:** Product creation emits events for further processing (e.g., notifications, cache, search index)
+- **Image Handling:** All images are resized and stored, with support for multiple images per product
+- **Caching:** Product details are cached in Redis for performance
+- **Seeding:** Use `/prisma/seed.js` to populate the database with fake data
+- **Extensible:** Modular codebase, easy to add new features (cart, orders, payments, etc.)
+
+---
+
+## 📄 License
+MIT
