@@ -2,12 +2,91 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: #FF6B6B;
+  --secondary: #4ECDC4;
+  --accent: #FFE66D;
+  --background: #F7F7F7;
+  --text: #2C3E50;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+}
+
+/* Card component */
 .card {
-    @apply mb-5 block rounded-lg border border-gray-200 shadow-md
+  @apply mb-5 block rounded-xl border border-gray-100 shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-white;
 }
+
+/* Primary button */
 .button-primary {
-    @apply bg-amber-300 hover:bg-amber-400 text-black font-bold py-2 px-4 border border-amber-700 rounded
+  background-color: var(--primary);
+  @apply hover:opacity-90 text-white font-semibold py-2.5 px-6 rounded-full 
+    transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0;
 }
-.slick-prev:before, .slick-next:before {
-    color: black !important;
+
+/* Secondary button */
+.button-secondary {
+  background-color: var(--secondary);
+  @apply hover:opacity-90 text-white font-semibold py-2.5 px-6 rounded-full 
+    transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Product card */
+.product-card {
+  @apply relative overflow-hidden rounded-xl transition-all duration-300;
+}
+
+.product-card:hover .product-image {
+  @apply scale-110;
+}
+
+.product-image {
+  @apply transition-transform duration-500;
+}
+
+/* Navigation link */
+.nav-link {
+  color: var(--text);
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f3f4f6; /* Tailwind gray-100 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 107, 107, 0.5); /* primary/50 */
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--primary);
+}
+
+/* Slick arrows (fix with raw CSS) */
+.slick-prev:before,
+.slick-next:before {
+  color: var(--primary) !important;
 }

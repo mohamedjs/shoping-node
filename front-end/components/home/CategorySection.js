@@ -1,13 +1,13 @@
 import Link from 'next/link';
-import { useSelector, useDispatch } from 'react-redux'
-import React, {useEffect} from 'react'
+import { useSelector } from 'react-redux'
+import React from 'react'
 import Slider from "react-slick";
 import Loading from '../loading/index';
 
 const CategorySection = () => {
     let { load, categories } = useSelector(state => state.categories)
     var settings = {
-      dots: false,
+      dots: true,
       infinite: false,
       speed: 500,
       slidesToShow: 6,
@@ -17,54 +17,58 @@ const CategorySection = () => {
         {
           breakpoint: 1024,
           settings: {
-            slidesToShow: 5,
-            slidesToScroll: 5,
+            slidesToShow: 4,
+            slidesToScroll: 4,
             infinite: true,
             dots: true
           }
         },
         {
-          breakpoint: 600,
+          breakpoint: 768,
           settings: {
-            slidesToShow: 4,
-            slidesToScroll: 4,
+            slidesToShow: 3,
+            slidesToScroll: 3,
             initialSlide: 2
           }
         },
         {
           breakpoint: 480,
           settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1
+            slidesToShow: 2,
+            slidesToScroll: 2
           }
         }
       ]
     };
+
     return (
-      <>
+      <div className="py-8">
+        <h2 className="text-2xl font-bold text-[var(--text)] mb-6 px-4">Shop by Category</h2>
         { load
           ? <Loading />  
-          : <Slider {...settings}>
+          : <Slider {...settings} className="category-slider">
               { categories.map((category, index) => (
-              <div className="transition duration-300 hover:scale-[1.1] p-4 mt-3 cursor-pointer" key={index}>
+                <div className="px-2" key={index}>
                   <Link href={`/category/${category.name}`}>
-                  <a className="relative w-full h-[200px] rounded inline-block">
-                    <div className="absolute left-0 bottom-0 w-full h-full z-10">
-                      <img
-                        src={category.image}
-                        className="absolute left-0 top-0 w-full h-full rounded z-10 object-cover"
+                    <a className="block group">
+                      <div className="relative overflow-hidden rounded-xl aspect-square">
+                        <img
+                          src={category.image}
+                          alt={category.name}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
-                    </div>
-                    <div className="p-4 absolute bg-cyan-500 shadow-lg shadow-cyan-500/50 bottom-0 inset-x-0 z-20">
-                        <h3 className="bottom-px text-center text-white">{category.name}</h3>
-                    </div>
-                  </a>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                          <h3 className="text-white text-lg font-semibold text-center">{category.name}</h3>
+                        </div>
+                      </div>
+                    </a>
                   </Link>
-              </div> 
-              )) }
+                </div> 
+              ))}
             </Slider>
         }
-      </>
+      </div>
     )
 }
 

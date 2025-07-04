@@ -1,0 +1,17 @@
+feat: Implement product creation with image upload and Redis caching
+
+This commit introduces significant new functionality and performance improvements:
+
+-   **Product Creation Endpoint**: Added a new `POST /products` endpoint to allow creation of new products.
+    -   Supports uploading multiple product images using Multer.
+    -   Includes robust server-side validation for product data.
+    -   Refactored product creation logic into `ProductRepository.createProduct`.
+    -   Emits a `product:created` event via `ProductEventService` upon successful creation.
+-   **Redis Caching for Products**: Implemented Redis caching for `findProduct` operations in `ProductRepository`.
+    -   Products are now retrieved from Redis cache if available, significantly reducing database load for frequently accessed items.
+    -   If not in cache, the product is fetched from the database and then stored in Redis for subsequent requests.
+-   **Infrastructure Setup**:
+    -   Integrated a Redis service into `docker-compose.yml` for local development and production environments.
+    -   Added `REDIS_PORT` to `.env` and `REDIS_HOST` environment variable for the backend service.
+-   **Event Listener Initialization**: Centralized event listener initialization in `app.js` to ensure services like `ProductEventService` are ready before routes are processed.
+-   **Dependencies**: Added `ioredis` to `package.json` for Redis client functionality.

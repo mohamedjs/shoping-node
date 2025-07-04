@@ -4,15 +4,39 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import { logger as appLogger } from './utils/logger.js';
+import productEventService from './events/ProductEventService.js';
 
 const __dirname = path.resolve();
 
 import usersRouter      from './modules/users/routes.js';
 import postsRouter      from './modules/posts/routes.js';
 import categoriesRouter from './modules/categories/routes.js';
-import productsRouter from './modules/products/routes.js';
+import productsRouter   from './modules/products/routes.js';
+
+// Initialize event listeners
+const initializeEventListeners = () => {
+    try {
+        // The ProductEventService is already initialized as a singleton
+        // We just need to verify it's working
+        appLogger.info('Event listeners initialized successfully');
+        
+        // You can add more event service initializations here
+        // For example:
+        // userEventService.initialize();
+        // orderEventService.initialize();
+    } catch (error) {
+        appLogger.error('Failed to initialize event listeners', { error: error.message });
+        // You might want to handle this error appropriately
+        // For example, you might want to exit the process if event listeners are critical
+        // process.exit(1);
+    }
+};
 
 var app = express();
+
+// Initialize event listeners before setting up routes
+initializeEventListeners();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

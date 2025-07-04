@@ -3,9 +3,9 @@ version: '3'
 services:
   nginx:
     depends_on:
+      - postgres
       - api
       - client
-      - mongo
     restart: always
     build:
       dockerfile: Dockerfile-nginx
@@ -20,7 +20,10 @@ services:
       dockerfile: Dockerfile-express
       context: ${BACK_END_PATH}
     depends_on:
-      - mongo
+      - redis
+      - postgres
+    environment:
+      - REDIS_HOST=redis
     volumes:
       - /app/node_modules
       - ${BACK_END_PATH}:${DOCUMENT_ROOT}
@@ -29,34 +32,63 @@ services:
 
   client:
     stdin_open: true
+    restart: always
+    ports:
+      - '${FRONT_END_PORT:-5000}:5000'
     environment:
       - CHOKIDAR_USEPOLLING=true
     build:
       dockerfile: Dockerfile-react
       context: ${FRONT_END_PATH}
     volumes:
-      - /app/node_modules
       - ${FRONT_END_PATH}:${DOCUMENT_ROOT}
+    command: sh ./start.sh
     networks:
       - shop-network
 
-  mongo:
-    image: mongo
-    restart: always
+  # mongo:
+  #   image: mongo
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_DATABASE: shop
+  #   volumes:
+  #     - mongo-data:/data/db
+  #   command: --replSet rs0
+  #   ports:
+  #     - '${DB_PORT:-27017}:27017'
+  #   networks:
+  #     - shop-network
+
+  postgres:
+    image: postgres:14
+    container_name: postgres
     environment:
-      MONGO_INITDB_DATABASE: shop
-    volumes:
-      - mongo-data:/data/db
-    command: --replSet rs0
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: app
     ports:
-      - '${DB_PORT:-27017}:27017'
+      - '${POSTGRES_DB_PORT:-5432}:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     networks:
       - shop-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - shop-network
+    volumes:
+      - redis_data:/data
+
 
 volumes:
-  mongo-data:
+  # mongo-data:
+  pgdata:
+  redis_data:
 
 networks:
   shop-network:
     driver: bridge
-    
